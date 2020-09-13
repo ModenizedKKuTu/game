@@ -7,7 +7,8 @@
   "scripts": {
     "test": "ts-node ./src/index.ts",
     "build": "tsc",
-    "lint": "eslint --fix"
+    "lint": "eslint --fix",
+    "libupgrade": "npm install https://github.com/ModernizedKKuTu/lib"
   },
   "repository": {
     "type": "git",

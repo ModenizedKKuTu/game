@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/ModenizedKKuTu/game#readme",
   "devDependencies": {
+    "@types/dotenv": "^8.2.0",
     "@types/ws": "^7.2.6",
     "@typescript-eslint/eslint-plugin": "^4.1.0",
     "@typescript-eslint/parser": "^4.1.0",
@@ -34,6 +35,7 @@
     "typescript": "^4.0.2"
   },
   "dependencies": {
+    "dotenv": "^8.2.0",
     "lib": "git+https://github.com/ModernizedKKuTu/lib.git",
     "ws": "^7.3.1"
   }

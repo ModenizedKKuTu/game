@@ -1,11 +1,11 @@
 import logger from '../logger'
-import Client from './Client'
+import WebSocketClient from './WebSocketClinet'
 
 export interface IWebServerSeek {
   value: number
 }
 
-export default class WebServer extends Client {
+export default class WebServer extends WebSocketClient {
   protected onMessage (msg: string) {
     try {
       const $msg = JSON.parse(msg)

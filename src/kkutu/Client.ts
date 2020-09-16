@@ -1,33 +1,82 @@
+import WebSocketClient from './WebSocketClinet'
 import WebSocket from 'ws'
 
-export default class Client {
-  protected socket: WebSocket
+export interface IClientProfile {
+  id: string
+  name: string
+  authType: string
+  image: string
+}
 
-  constructor (socket: WebSocket) {
+export default class Client extends WebSocketClient {
+  profile: IClientProfile
+  isAjae: boolean
+  guest: boolean
+
+  place: number
+  team: number
+  ready: boolean
+  game: object
+
+  subPlace: number
+  error: boolean
+  blocked: boolean
+  spam: number
+  _pub: Date
+
+  constructor (socket: WebSocket, profile: IClientProfile|undefined, sid: string) {
+    super(socket)
+
     this.socket = socket
+    this.place = 0
+    this.team = 0
+    this.ready = false
+    this.game = {}
 
-    socket.on('message', (msg: string) => this.onMessage(msg))
-  }
+    this.subPlace = 0
+    this.error = false
+    this.blocked = false
+    this.spam = 0
+    this._pub = new Date()
 
-  public send (type: string, data: Object = {}) {
-    const $d = data as any
+    if (profile) {
+      this.profile = {
+        id: profile.id,
+        name: profile.name,
+        authType: profile.authType,
+        image: profile.image
+      }
 
-    $d.type = type
+      this.guest = false
+      this.isAjae = false
+    } else {
+      this.profile = {
+        id: getGuestName(sid),
+        name: 'guest',
+        authType: 'guest',
+        image: '/img/kkutu/guest.png'
+      }
 
-    if (this.socket.readyState === 1) {
-      this.socket.send(JSON.stringify($d))
+      this.guest = true
+      this.isAjae = false
     }
   }
 
-  public close () {
-    this.socket.close()
-  }
-
-  public onClose (closeHandler: () => void) {
-    this.socket.on('close', closeHandler)
-  }
-
-  protected onMessage (msg: string): void {
+  public onClose (code: number, _reason: string) {
 
   }
+
+  protected onMessage (msg: string) {
+
+  }
+}
+
+function getGuestName (sid: string) {
+  const len = sid.length
+  let res = 0
+
+  for (let i = 0; i < len; i++) {
+    res += sid.charCodeAt(i) * (i + 1)
+  }
+  return `GUEST${(1000 + (res % 9000))}`
 }

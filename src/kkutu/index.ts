@@ -1,9 +1,11 @@
-import Client from './Client'
+import WebSocketClient from './WebSocketClinet'
 
 import WebServer from './WebServer'
+import Client from './Client'
 
 export {
-  Client,
+  WebSocketClient,
 
-  WebServer
+  WebServer,
+  Client
 }

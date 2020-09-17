@@ -24,6 +24,9 @@ export default class Client extends WebSocketClient {
   spam: number
   _pub: Date
 
+  admin: boolean
+  remoteAddress: string
+
   constructor (socket: WebSocket, profile: IClientProfile|undefined, sid: string) {
     super(socket)
 
@@ -39,6 +42,9 @@ export default class Client extends WebSocketClient {
     this.spam = 0
     this._pub = new Date()
 
+    this.admin = false
+    this.remoteAddress = ''
+
     if (profile) {
       this.profile = {
         id: profile.id,
@@ -51,8 +57,8 @@ export default class Client extends WebSocketClient {
       this.isAjae = false
     } else {
       this.profile = {
-        id: getGuestName(sid),
-        name: 'guest',
+        id: sid,
+        name: getGuestName(sid),
         authType: 'guest',
         image: '/img/kkutu/guest.png'
       }
@@ -68,6 +74,10 @@ export default class Client extends WebSocketClient {
 
   protected onMessage (msg: string) {
 
+  }
+
+  public sendError (code: number, reason: string = '') {
+    this.send('error', { code, reason })
   }
 }
 
